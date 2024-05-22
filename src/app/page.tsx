@@ -1,14 +1,11 @@
 import { db } from "@/server/db";
+import { getImages } from "@/server/queries";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export const dynamic = "force-dynamic";
 
 async function Images() {
-	const images = await db.query.images.findMany({
-		orderBy(fields, operators) {
-			return operators.desc(fields.id);
-		},
-	});
+	const images = await getImages()
 	return (
 		<div className="flex flex-wrap gap-4">
 			{images.map(({ id, url, name }) => (
